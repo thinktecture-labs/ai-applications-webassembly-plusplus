@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e7f5fe;
+            border: 1px solid #bce0fd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <input type="text" id="textInput" placeholder="Enter text for sentiment analysis">
+    <button id="analyzeButton">Analyze Sentiment</button>
+    <div id="result"></div>
+    <script type="module">
+        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@latest';
+
+        async function runSentimentAnalysis(text) {
+            try {
+                let pipe = await pipeline('sentiment-analysis');
+                let result = await pipe(text);
+                console.log("SENTIMENT: ", result);
+                document.getElementById('result').textContent = JSON.stringify(result);
+            } catch (error) {
+                console.error("Error running sentiment analysis:", error);
+                document.getElementById('result').textContent = "Error running sentiment analysis.";
+            }
+        }
+
+        document.getElementById('analyzeButton').addEventListener('click', async () => {
+            const text = document.getElementById('textInput').value;
+            if (text) {
+                await runSentimentAnalysis(text);
+            } else {
+                alert("Please enter some text for analysis.");
+            }
+        });
+    </script>
+</body>
+</html>

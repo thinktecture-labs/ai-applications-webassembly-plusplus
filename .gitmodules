@@ -1,0 +1,3 @@
+[submodule "WebNN/webnn-samples"]
+	path = WebNN/webnn-samples
+	url = https://github.com/webmachinelearning/webnn-samples
